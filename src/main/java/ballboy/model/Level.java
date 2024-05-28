@@ -1,63 +1,91 @@
 package ballboy.model;
 
-import ballboy.model.entities.Entity;
+import javafx.scene.paint.Color;
+
 import java.util.List;
 
 /**
  * The base interface for a Ballboy level.
  */
 public interface Level {
+
     /**
      * Return a List of the currently existing Entities.
+     *
      * @return The list of current entities for this level
      */
     List<Entity> getEntities();
 
     /**
      * The height of the level
+     *
      * @return The height (should be in the same format as Entity sizes)
      */
     double getLevelHeight();
 
     /**
      * The width of the level
+     *
      * @return The width (should be in the same format as Entity sizes)
      */
     double getLevelWidth();
 
     /**
-     * Instruct the level to progress forward in time by one increment.
+     * @return double The height of the hero.
      */
-    void tick();
+    double getHeroHeight();
 
     /**
-     * The height of the floor for this level. This is where the ground stops and the sky starts.
-     * @return The floor height (should be in the same format as Entity sizes)
+     * @return double The width of the hero.
+     */
+    double getHeroWidth();
+
+    /**
+     * @return double The vertical position of the floor.
      */
     double getFloorHeight();
 
     /**
+     * @return Color The current configured color of the floor.
+     */
+    Color getFloorColor();
+
+    /**
+     * @return double The current level gravity.
+     */
+    double getGravity();
+
+    /**
+     * Instruct the level to progress forward in time by one increment.
+     */
+    void update();
+
+    /**
      * The current x position of the hero. This is useful for views so they can follow the hero.
+     *
      * @return The hero x position (should be in the same format as Entity sizes)
      */
     double getHeroX();
 
     /**
      * The current y position of the hero. This is useful for views so they can follow the hero.
+     *
      * @return The hero y position (should be in the same format as Entity sizes)
      */
     double getHeroY();
 
-    // Hero inputs - boolean for success (possibly for sound feedback)
-
     /**
-     * Increase the height the bouncing hero can reach. This could be the vertical acceleration of the hero, unless the current level has special behaviour.
+     * Increase the height the bouncing hero can reach. This could be the vertical acceleration of the hero, unless
+     * the current level has special behaviour.
+     *
      * @return true if successful
      */
     boolean boostHeight();
 
     /**
-     * Reduce the height the bouncing hero can reach. This could be the vertical acceleration of the hero, unless the current level has special behaviour.
+     * Reduce the height the bouncing hero can reach. This could be the vertical acceleration of the hero, unless the
+     * current level has special behaviour.
+     *
      * @return true if successful
      */
     boolean dropHeight();
@@ -77,34 +105,24 @@ public interface Level {
     boolean moveRight();
 
     /**
-     * Stop the hero's movement
-     * @return true if successful
+     * @param entity The entity to be checked.
+     * @return boolean True if the provided entity is the current hero.
      */
-    boolean stop();
+    boolean isHero(Entity entity);
 
     /**
-     * @return true if player has collided with the endPoint
+     * @param entity The entity to be checked.
+     * @return boolean True if the provided entity is the finish of this level.
      */
-    boolean getWinState();
+    boolean isFinish(Entity entity);
+
+    /*
+     * Currently, this will just reset the hero to its starting position.
+     */
+    void resetHero();
 
     /**
-     *
-     * @param entity
-     * @param entity2
-     * @return true if entity and entity2 overlap
+     * Finishes the level.
      */
-    boolean checkCollision(Entity entity, Entity entity2);
-
-    /**
-     * @return true if player has collided with any enemy
-     */
-    boolean getLoseState();
-
-    /* Setters */
-
-    void setLoseState(boolean b);
-
-    void setWinState(boolean b);
-
-    void resetPlayer();
+    void finish();
 }

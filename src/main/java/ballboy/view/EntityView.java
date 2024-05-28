@@ -1,10 +1,12 @@
 package ballboy.view;
 
-import ballboy.model.entities.*;
+import ballboy.model.Entity;
 import javafx.scene.Node;
 
 public interface EntityView {
-    void update(double xViewportOffset, double yViewportOffset);
+    void update(
+            double xViewportOffset,
+            double yViewportOffset);
 
     boolean matchesEntity(Entity entity);
 

@@ -1,66 +1,42 @@
 package ballboy.model;
 
-import java.util.List;
-import java.util.Map;
-
+/**
+ * Implementation of the GameEngine interface.
+ * This provides a common interface for the entire game.
+ */
 public class GameEngineImpl implements GameEngine {
-    private Level currentLevel;
-    private LevelCreator levelCreator;
+    private final Level level;
 
-
-    public GameEngineImpl(Map<String, Object> config){
-
-        List<Map> configLevels = (List<Map>) config.get("levels");
-        Map<String, Object> configLevel = configLevels.get(0);
-        Map<String, Object> configLevelData = (Map<String, Object>) configLevel.get("levelData");
-
-        LevelCreator levelCreator = new LevelCreatorImpl(configLevel);
-        currentLevel = levelCreator.getLevel();
-
+    public GameEngineImpl(Level level) {
+        this.level = level;
     }
 
-    @Override
     public Level getCurrentLevel() {
-        return currentLevel;
+        return level;
     }
 
-    @Override
-    public void startLevel() { }
+    public void startLevel() {
+        // TODO: Handle when multiple levels has been implemented
+        return;
+    }
 
-    @Override
     public boolean boostHeight() {
-        return currentLevel.boostHeight();
+        return level.boostHeight();
     }
 
-    @Override
     public boolean dropHeight() {
-        return currentLevel.dropHeight();
+        return level.dropHeight();
     }
 
-    @Override
     public boolean moveLeft() {
-        return currentLevel.moveLeft();
+        return level.moveLeft();
     }
 
-    @Override
     public boolean moveRight() {
-        return currentLevel.moveRight();
+        return level.moveRight();
     }
 
-    @Override
-    public boolean stop() {
-        return currentLevel.stop();
-    }
-
-    @Override
     public void tick() {
-        if (getCurrentLevel().getLoseState()){
-            getCurrentLevel().setLoseState(false);
-            getCurrentLevel().resetPlayer();
-        }
-        if (getCurrentLevel().getWinState()){
-            System.exit(0);
-        }
-        getCurrentLevel().tick();
+        level.update();
     }
 }
