@@ -58,9 +58,13 @@ config demonstrates:
 - cloud constant velocity movement
 - ballboy can't interact with clouds
 
-Design patterns:
-Move Strategy pattern: MovementStrategy, FloatingEnemyMoveStrat, NormalEnemyMoveStrat, CloudMoveStrat, PlayerMovementStrategy, BallMoveStrat
-Collision Strategy pattern: CollisionStrategy, SimpleCollisionStrat, CollisionStrat
+#### Design patterns:
+
+Move Strategy pattern: 
+- MovementStrategy, FloatingEnemyMoveStrat, NormalEnemyMoveStrat, CloudMoveStrat, PlayerMovementStrategy, BallMoveStrat
+
+Collision Strategy pattern: 
+- CollisionStrategy, SimpleCollisionStrat, CollisionStrat
 
 Factory Pattern:
 
