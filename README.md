@@ -69,3 +69,10 @@ Factory Pattern:
 - Creator: EntityFactory
 - ConcreteCreator: EndPointFactory, CloudFactory, GrassFactory, TerrainFactory, NormalEnemyFactory, FloatingEnemyFactory
 - Factory Registry: EntityRegistry
+
+#### Screenshot
+
+<img width="642" alt="Screen Shot 2024-05-28 at 9 46 43 pm" src="https://github.com/alice-xuu/Ballboy/assets/61668791/54ebccd5-cce5-4aef-b322-748e91916595">
+
+
+
