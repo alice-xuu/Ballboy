@@ -203,5 +203,5 @@ See DynamicEntityImpl in DynamicEntityImpl.java
 - [Boulder](https://www.pngwing.com/en/free-png-zrzud/download)
 - [Stone Block](https://www.deviantart.com/sarahstudiosart/art/Stone-Wall-1-458649249)
 
+<img width="639" alt="Screen Shot 2024-05-28 at 9 53 38 pm" src="https://github.com/alice-xuu/Ballboy/assets/61668791/3d77d049-98e3-4893-ae9f-b680e3438b92">
 
-<img width="642" alt="Screen Shot 2024-05-28 at 9 46 43 pm" src="https://github.com/alice-xuu/Ballboy/assets/61668791/169fb59f-4a90-4301-97b9-0ddeffa5f538">
