@@ -1,42 +1,66 @@
 package ballboy.model;
 
-/**
- * Implementation of the GameEngine interface.
- * This provides a common interface for the entire game.
- */
+import java.util.List;
+import java.util.Map;
+
 public class GameEngineImpl implements GameEngine {
-    private final Level level;
+    private Level currentLevel;
+    private LevelCreator levelCreator;
 
-    public GameEngineImpl(Level level) {
-        this.level = level;
+
+    public GameEngineImpl(Map<String, Object> config){
+
+        List<Map> configLevels = (List<Map>) config.get("levels");
+        Map<String, Object> configLevel = configLevels.get(0);
+        Map<String, Object> configLevelData = (Map<String, Object>) configLevel.get("levelData");
+
+        LevelCreator levelCreator = new LevelCreatorImpl(configLevel);
+        currentLevel = levelCreator.getLevel();
+
     }
 
+    @Override
     public Level getCurrentLevel() {
-        return level;
+        return currentLevel;
     }
 
-    public void startLevel() {
-        // TODO: Handle when multiple levels has been implemented
-        return;
-    }
+    @Override
+    public void startLevel() { }
 
+    @Override
     public boolean boostHeight() {
-        return level.boostHeight();
+        return currentLevel.boostHeight();
     }
 
+    @Override
     public boolean dropHeight() {
-        return level.dropHeight();
+        return currentLevel.dropHeight();
     }
 
+    @Override
     public boolean moveLeft() {
-        return level.moveLeft();
+        return currentLevel.moveLeft();
     }
 
+    @Override
     public boolean moveRight() {
-        return level.moveRight();
+        return currentLevel.moveRight();
     }
 
+    @Override
+    public boolean stop() {
+        return currentLevel.stop();
+    }
+
+    @Override
     public void tick() {
-        level.update();
+        if (getCurrentLevel().getLoseState()){
+            getCurrentLevel().setLoseState(false);
+            getCurrentLevel().resetPlayer();
+        }
+        if (getCurrentLevel().getWinState()){
+            System.exit(0);
+        }
+        getCurrentLevel().tick();
     }
 }

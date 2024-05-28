@@ -1,31 +1,19 @@
 package ballboy;
 
-import ballboy.model.Entity;
+
 import ballboy.model.GameEngine;
 import ballboy.model.GameEngineImpl;
-import ballboy.model.Level;
-import ballboy.model.factories.BallboyFactory;
-import ballboy.model.factories.CloudFactory;
-import ballboy.model.factories.EnemyFactory;
-import ballboy.model.factories.EntityFactoryRegistry;
-import ballboy.model.factories.FinishFactory;
-import ballboy.model.factories.StaticEntityFactory;
-import ballboy.model.levels.LevelImpl;
-import ballboy.model.levels.PhysicsEngine;
-import ballboy.model.levels.PhysicsEngineImpl;
 import ballboy.view.GameWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 
-/*
- * Application root.
- *
- * Wiring of the dependency graph should be done manually in the start method.
- */
 public class App extends Application {
 
     public static void main(String[] args) {
@@ -42,39 +30,24 @@ public class App extends Application {
                     " as your code will fail to compile on Java 10 and below.");
         }
 
-        ConfigurationParser configuration = new ConfigurationParser();
-        JSONObject parsedConfiguration = null;
-        try {
-            parsedConfiguration = configuration.parseConfig("config.json");
-        } catch (ConfigurationParseException e) {
-            System.out.println(e);
-            System.exit(-1);
+        Path configPath = Path.of("src/main/resources/config/config.json");
+
+        JSONParser parser = new JSONParser();
+        Map<String, Object> config = null;
+
+        try{
+            config = (Map<String, Object>) parser.parse(new FileReader(configPath.toString()));
+        } catch (ParseException | IOException e) {
+            System.out.println("failed to open file");
+            e.printStackTrace();
         }
 
-        final double frameDurationMilli = 17;
-        PhysicsEngine engine = new PhysicsEngineImpl(frameDurationMilli);
-
-        EntityFactoryRegistry entityFactoryRegistry = new EntityFactoryRegistry();
-        entityFactoryRegistry.registerFactory("cloud", new CloudFactory());
-        entityFactoryRegistry.registerFactory("enemy", new EnemyFactory());
-        entityFactoryRegistry.registerFactory("background", new StaticEntityFactory(Entity.Layer.BACKGROUND));
-        entityFactoryRegistry.registerFactory("static", new StaticEntityFactory(Entity.Layer.FOREGROUND));
-        entityFactoryRegistry.registerFactory("finish", new FinishFactory());
-        entityFactoryRegistry.registerFactory("hero", new BallboyFactory());
-
-
-        Integer levelIndex = ((Number) parsedConfiguration.get("currentLevelIndex")).intValue();
-        JSONArray levelConfigs = (JSONArray) parsedConfiguration.get("levels");
-        JSONObject levelConfig = (JSONObject) levelConfigs.get(levelIndex);
-        Level level = new LevelImpl(levelConfig, engine, entityFactoryRegistry, frameDurationMilli);
-        GameEngine gameEngine = new GameEngineImpl(level);
-
-        GameWindow window = new GameWindow(gameEngine, 640, 400, frameDurationMilli);
+        GameEngine model = new GameEngineImpl(config);
+        GameWindow window = new GameWindow(model, 640, 400);
         window.run();
 
         primaryStage.setTitle("Ballboy");
         primaryStage.setScene(window.getScene());
-        primaryStage.setResizable(false);
         primaryStage.show();
 
         window.run();

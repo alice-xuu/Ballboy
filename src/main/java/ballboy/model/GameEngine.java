@@ -6,7 +6,6 @@ package ballboy.model;
 public interface GameEngine {
     /**
      * Return the currently loaded level
-     *
      * @return The current level
      */
     Level getCurrentLevel();
@@ -16,36 +15,16 @@ public interface GameEngine {
      */
     void startLevel();
 
-    /**
-     * Increases the bounce height of the current hero.
-     *
-     * @return boolean True if the bounce height of the hero was successfully boosted.
-     */
+    // Hero inputs - boolean for success (and for sound feedback)
     boolean boostHeight();
-
-    /**
-     * Reduces the bounce height of the current hero.
-     *
-     * @return boolean True if the bounce height of the hero was successfully dropped.
-     */
     boolean dropHeight();
-
-    /**
-     * Applies a left movement to the current hero.
-     *
-     * @return True if the hero was successfully moved left.
-     */
     boolean moveLeft();
-
-    /**
-     * Applies a right movement to the current hero.
-     *
-     * @return True if the hero was successfully moved right.
-     */
     boolean moveRight();
+    boolean stop();
 
     /**
      * Instruct the model to progress forward in time by one increment.
      */
     void tick();
+
 }
